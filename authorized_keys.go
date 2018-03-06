@@ -22,7 +22,8 @@ func (f *AuthorizedKeys) UnmarshalFlag(value string) error {
 	for {
 		key, _, _, rest, err := ssh.ParseAuthorizedKey(authorizedKeysBytes)
 		if err != nil {
-			return fmt.Errorf("failed to parse authorized key: %s", err)
+			// there's no good error to check for here
+			break
 		}
 
 		authorizedKeys = append(authorizedKeys, key)
