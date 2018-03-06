@@ -10,12 +10,10 @@ type Dir string
 
 func (f *Dir) UnmarshalFlag(value string) error {
 	stat, err := os.Stat(value)
-	if err != nil {
-		return err
-	}
-
-	if !stat.IsDir() {
-		return fmt.Errorf("path '%s' is not a directory", value)
+	if err == nil {
+		if !stat.IsDir() {
+			return fmt.Errorf("path '%s' is not a directory", value)
+		}
 	}
 
 	abs, err := filepath.Abs(value)
