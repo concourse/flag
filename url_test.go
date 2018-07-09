@@ -32,4 +32,21 @@ var _ = Describe("URLFlag", func() {
 		Expect(err).To(HaveOccurred())
 		Expect(err.Error()).To(Equal("missing scheme in 'example.com'"))
 	})
+
+	It("returns an error for localhost without scheme", func() {
+		flag := flag.URL{}
+
+		err := flag.UnmarshalFlag("localhost:8080")
+		Expect(err).To(HaveOccurred())
+		Expect(err.Error()).To(Equal("missing scheme in 'localhost:8080'"))
+	})
+
+	It("unmarshalls localhost with scheme correctly", func() {
+		flag := flag.URL{}
+
+		err := flag.UnmarshalFlag("http://localhost:8080")
+		Expect(err).ToNot(HaveOccurred())
+
+		Expect(flag.String()).To(Equal("http://localhost:8080"))
+	})
 })

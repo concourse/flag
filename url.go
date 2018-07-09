@@ -18,7 +18,9 @@ func (u *URL) UnmarshalFlag(value string) error {
 		return err
 	}
 
-	if parsedURL.Scheme == "" {
+	// localhost URLs that do not start with http:// are interpreted
+	// with `localhost` as the Scheme, not the Host
+	if parsedURL.Scheme == "" || parsedURL.Host == "" {
 		return fmt.Errorf("missing scheme in '%s'", value)
 	}
 
