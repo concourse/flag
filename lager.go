@@ -2,6 +2,7 @@ package flag
 
 import (
 	"fmt"
+	"io"
 	"os"
 
 	"code.cloudfoundry.org/lager"
@@ -15,7 +16,12 @@ const (
 )
 
 type Lager struct {
-	LogLevel string `long:"log-level" default:"info" choice:"debug" choice:"info" choice:"error" choice:"fatal" description:"Minimum level of logs to see."`
+	LogLevel   string `long:"log-level" default:"info" choice:"debug" choice:"info" choice:"error" choice:"fatal" description:"Minimum level of logs to see."`
+	writerSink io.Writer
+}
+
+func (f *Lager) SetWriterSink(writer io.Writer) {
+	f.writerSink = writer
 }
 
 func (f Lager) Logger(component string) (lager.Logger, *lager.ReconfigurableSink) {
@@ -35,7 +41,11 @@ func (f Lager) Logger(component string) (lager.Logger, *lager.ReconfigurableSink
 
 	logger := lager.NewLogger(component)
 
-	sink := lager.NewReconfigurableSink(lager.NewWriterSink(os.Stdout, lager.DEBUG), minLagerLogLevel)
+	if f.writerSink == nil {
+		f.writerSink = os.Stdout
+	}
+	sink := lager.NewReconfigurableSink(lager.NewWriterSink(f.writerSink, lager.DEBUG), minLagerLogLevel)
+
 	logger.RegisterSink(sink)
 
 	return logger, sink
