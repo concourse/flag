@@ -10,8 +10,6 @@ import (
 )
 
 type PostgresConfig struct {
-	DataSource string `long:"data-source" description:"PostgreSQL connection string. (Deprecated; set the following flags instead.)"`
-
 	Host string `long:"host" description:"The host to connect to." default:"127.0.0.1"`
 	Port uint16 `long:"port" description:"The port to connect to." default:"5432"`
 
@@ -31,10 +29,6 @@ type PostgresConfig struct {
 }
 
 func (config PostgresConfig) ConnectionString() string {
-	if config.DataSource != "" {
-		return config.DataSource
-	}
-
 	properties := map[string]interface{}{
 		"dbname":  config.Database,
 		"sslmode": config.SSLMode,
