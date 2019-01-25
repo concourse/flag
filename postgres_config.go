@@ -24,6 +24,8 @@ type PostgresConfig struct {
 	ClientKey  File   `long:"client-key"  description:"Client key file location."`
 
 	ConnectTimeout time.Duration `long:"connect-timeout" description:"Dialing timeout. (0 means wait indefinitely)" default:"5m"`
+	ReadTimeout    time.Duration `long:"read-timeout" description:"Read timeout. (0 means wait indefinitely)" default:"0m"`
+	WriteTimeout   time.Duration `long:"write-timeout" description:"Write timeout. (0 means wait indefinitely)" default:"0m"`
 
 	Database string `long:"database" description:"The name of the database to use." default:"atc"`
 }
