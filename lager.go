@@ -44,7 +44,7 @@ func (f Lager) Logger(component string) (lager.Logger, *lager.ReconfigurableSink
 	if f.writerSink == nil {
 		f.writerSink = os.Stdout
 	}
-	sink := lager.NewReconfigurableSink(lager.NewWriterSink(f.writerSink, lager.DEBUG), minLagerLogLevel)
+	sink := lager.NewReconfigurableSink(lager.NewPrettySink(f.writerSink, lager.DEBUG), minLagerLogLevel)
 
 	logger.RegisterSink(sink)
 
