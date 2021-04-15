@@ -15,8 +15,15 @@ const (
 	LogLevelFatal = "fatal"
 )
 
+var ValidLogLevels = []string{
+	LogLevelDebug,
+	LogLevelInfo,
+	LogLevelError,
+	LogLevelFatal,
+}
+
 type Lager struct {
-	LogLevel   string `long:"log-level" default:"info" choice:"debug" choice:"info" choice:"error" choice:"fatal" description:"Minimum level of logs to see."`
+	LogLevel   string `yaml:"log_level,omitempty" validate:"log_level" env:"CONCOURSE_WORKER_GATEWAY_LOG_LEVEL,CONCOURSE_TSA_LOG_LEVEL"`
 	writerSink io.Writer
 }
 
