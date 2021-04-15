@@ -10,22 +10,22 @@ import (
 )
 
 type PostgresConfig struct {
-	Host string `long:"host" description:"The host to connect to." default:"127.0.0.1"`
-	Port uint16 `long:"port" description:"The port to connect to." default:"5432"`
+	Host string `yaml:"host,omitempty"`
+	Port uint16 `yaml:"port,omitempty"`
 
-	Socket string `long:"socket" description:"Path to a UNIX domain socket to connect to."`
+	Socket string `yaml:"socket,omitempty"`
 
-	User     string `long:"user"     description:"The user to sign in as."`
-	Password string `long:"password" description:"The user's password."`
+	User     string `yaml:"user,omitempty"`
+	Password string `yaml:"password,omitempty"`
 
-	SSLMode    string `long:"sslmode"     description:"Whether or not to use SSL." default:"disable" choice:"disable" choice:"require" choice:"verify-ca" choice:"verify-full"`
-	CACert     File   `long:"ca-cert"     description:"CA cert file location, to verify when connecting with SSL."`
-	ClientCert File   `long:"client-cert" description:"Client cert file location."`
-	ClientKey  File   `long:"client-key"  description:"Client key file location."`
+	SSLMode    string `yaml:"sslmode,omitempty"`
+	CACert     File   `yaml:"ca_cert,omitempty"`
+	ClientCert File   `yaml:"client_cert,omitempty"`
+	ClientKey  File   `yaml:"client_key,omitempty"`
 
-	ConnectTimeout time.Duration `long:"connect-timeout" description:"Dialing timeout. (0 means wait indefinitely)" default:"5m"`
+	ConnectTimeout time.Duration `yaml:"connect_timeout,omitempty"`
 
-	Database string `long:"database" description:"The name of the database to use." default:"atc"`
+	Database string `yaml:"database,omitempty"`
 }
 
 func (config PostgresConfig) ConnectionString() string {

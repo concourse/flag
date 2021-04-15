@@ -4,11 +4,65 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 )
+
+type Files []File
+
+// Can be removed once flags are deprecated
+func (f *Files) Set(value string) error {
+	unparsedFiles := strings.Split(value, ",")
+
+	var parsedFiles Files
+	for _, unparsedFile := range unparsedFiles {
+		var file File
+		err := file.Set(strings.TrimSpace(unparsedFile))
+		if err != nil {
+			return err
+		}
+
+		parsedFiles = append(parsedFiles, file)
+	}
+
+	return nil
+}
+
+// Can be removed once flags are deprecated
+func (f *Files) String() string {
+	if f == nil {
+		return ""
+	}
+
+	return fmt.Sprintf("%v", *f)
+}
+
+// Can be removed once flags are deprecated
+func (f *Files) Type() string {
+	return "Files"
+}
 
 type File string
 
-func (f *File) UnmarshalFlag(value string) error {
+func (f File) MarshalYAML() (interface{}, error) {
+	return string(f), nil
+}
+
+func (f *File) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	var value string
+	err := unmarshal(&value)
+	if err != nil {
+		return err
+	}
+
+	if value != "" {
+		return f.Set(value)
+	}
+
+	return nil
+}
+
+// Can be removed once flags are deprecated
+func (f *File) Set(value string) error {
 	stat, err := os.Stat(value)
 	if err != nil {
 		return err
@@ -28,6 +82,20 @@ func (f *File) UnmarshalFlag(value string) error {
 	return nil
 }
 
-func (f File) Path() string {
-	return string(f)
+// Can be removed once flags are deprecated
+func (f *File) String() string {
+	if f == nil {
+		return ""
+	}
+
+	return string(*f)
+}
+
+// Can be removed once flags are deprecated
+func (f *File) Type() string {
+	return "File"
+}
+
+func (f *File) Path() string {
+	return string(*f)
 }
