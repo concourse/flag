@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	jwt "github.com/dgrijalva/jwt-go"
+	jwt "github.com/golang-jwt/jwt/v5"
 )
 
 type PrivateKey struct {
