@@ -3,7 +3,7 @@ module github.com/concourse/flag/v2
 go 1.20
 
 require (
-	code.cloudfoundry.org/lager v1.1.1-0.20230321195817-3d52f427a2d2
+	code.cloudfoundry.org/lager/v3 v3.0.2
 	github.com/golang-jwt/jwt/v5 v5.0.0-rc.1
 	github.com/onsi/ginkgo/v2 v2.9.1
 	github.com/onsi/gomega v1.27.4
