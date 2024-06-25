@@ -24,3 +24,21 @@ var _ = Describe("PostgresConfig", func() {
 		})
 	})
 })
+
+var _ = Describe("PostgresConfig", func() {
+	Describe("ConnectionString", func() {
+		It("adds binary_parameters correctly", func() {
+			Expect(flag.PostgresConfig{
+				Host: "1.2.3.4",
+				Port: 5432,
+
+				User:     "some user",
+				Password: "not-so-important",
+
+				BinaryParameters: true,
+
+				Database: "atc",
+			}.ConnectionString()).To(Equal("binary_parameters='yes' dbname='atc' host='1.2.3.4' password='not-so-important' port=5432 sslmode='' user='some user'"))
+		})
+	})
+})
