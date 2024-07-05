@@ -23,7 +23,7 @@ type PostgresConfig struct {
 	ClientCert File   `long:"client-cert" description:"Client cert file location."`
 	ClientKey  File   `long:"client-key"  description:"Client key file location."`
 
-	BinaryParameters bool `long:"binary-parameters" description:"Whether or not to use binary parameters for prepared statements." default:"false"`
+	BinaryParameters bool `long:"binary-parameters" description:"Whether or not to use binary parameters for prepared statements."`
 
 	ConnectTimeout time.Duration `long:"connect-timeout" description:"Dialing timeout. (0 means wait indefinitely)" default:"5m"`
 
