@@ -18,10 +18,11 @@ type PostgresConfig struct {
 	User     string `long:"user"     description:"The user to sign in as."`
 	Password string `long:"password" description:"The user's password."`
 
-	SSLMode    string `long:"sslmode"     description:"Whether or not to use SSL." default:"disable" choice:"disable" choice:"require" choice:"verify-ca" choice:"verify-full"`
-	CACert     File   `long:"ca-cert"     description:"CA cert file location, to verify when connecting with SSL."`
-	ClientCert File   `long:"client-cert" description:"Client cert file location."`
-	ClientKey  File   `long:"client-key"  description:"Client key file location."`
+	SSLMode        string `long:"sslmode"        description:"Whether or not to use SSL." default:"disable" choice:"disable" choice:"require" choice:"verify-ca" choice:"verify-full"`
+	CACert         File   `long:"ca-cert"        description:"CA cert file location, to verify when connecting with SSL."`
+	ClientCert     File   `long:"client-cert"    description:"Client cert file location."`
+	ClientKey      File   `long:"client-key"     description:"Client key file location."`
+	SSLNegotiation string `long:"sslnegotiation" description:"Controls how SSL encryption is negotiated with the server, if SSL is used. The direct SSL option was introduced in PostgreSQL version 17." default:"postgres" choice:"postgres" choice:"direct"`
 
 	BinaryParameters bool `long:"binary-parameters" description:"Whether or not to use binary parameters for prepared statements."`
 
@@ -61,6 +62,10 @@ func (config PostgresConfig) ConnectionString() string {
 
 	if config.ClientKey != "" {
 		properties["sslkey"] = config.ClientKey.Path()
+	}
+
+	if config.SSLNegotiation != "" {
+		properties["sslnegotiation"] = config.SSLNegotiation
 	}
 
 	if config.ConnectTimeout != 0 {
