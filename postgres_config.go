@@ -23,8 +23,6 @@ type PostgresConfig struct {
 	ClientCert File   `long:"client-cert" description:"Client cert file location."`
 	ClientKey  File   `long:"client-key"  description:"Client key file location."`
 
-	BinaryParameters bool `long:"binary-parameters" description:"Whether or not to use binary parameters for prepared statements."`
-
 	ConnectTimeout time.Duration `long:"connect-timeout" description:"Dialing timeout. (0 means wait indefinitely)" default:"5m"`
 
 	Database string `long:"database" description:"The name of the database to use." default:"atc"`
@@ -65,10 +63,6 @@ func (config PostgresConfig) ConnectionString() string {
 
 	if config.ConnectTimeout != 0 {
 		properties["connect_timeout"] = strconv.Itoa(int(config.ConnectTimeout.Seconds()))
-	}
-
-	if config.BinaryParameters {
-		properties["binary_parameters"] = "yes"
 	}
 
 	var pairs []string
