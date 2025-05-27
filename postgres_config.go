@@ -18,10 +18,11 @@ type PostgresConfig struct {
 	User     string `long:"user"     description:"The user to sign in as."`
 	Password string `long:"password" description:"The user's password."`
 
-	SSLMode    string `long:"sslmode"     description:"Whether or not to use SSL." default:"disable" choice:"disable" choice:"require" choice:"verify-ca" choice:"verify-full"`
-	CACert     File   `long:"ca-cert"     description:"CA cert file location, to verify when connecting with SSL."`
-	ClientCert File   `long:"client-cert" description:"Client cert file location."`
-	ClientKey  File   `long:"client-key"  description:"Client key file location."`
+	SSLMode        string `long:"sslmode"        description:"Whether or not to use SSL." default:"disable" choice:"disable" choice:"require" choice:"verify-ca" choice:"verify-full"`
+	SSLNegotiation string `long:"sslnegotiation" description:"Controls how SSL encryption is negotiated with the server." default:"postgres" choice:"postgres" choice:"direct"`
+	CACert         File   `long:"ca-cert"        description:"CA cert file location, to verify when connecting with SSL."`
+	ClientCert     File   `long:"client-cert"    description:"Client cert file location."`
+	ClientKey      File   `long:"client-key"     description:"Client key file location."`
 
 	ConnectTimeout time.Duration `long:"connect-timeout" description:"Dialing timeout. (0 means wait indefinitely)" default:"5m"`
 
@@ -47,6 +48,10 @@ func (config PostgresConfig) ConnectionString() string {
 	} else {
 		properties["host"] = config.Host
 		properties["port"] = config.Port
+	}
+
+	if config.SSLNegotiation != "" {
+		properties["sslnegotiation"] = config.SSLNegotiation
 	}
 
 	if config.CACert != "" {

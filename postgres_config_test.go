@@ -22,5 +22,17 @@ var _ = Describe("PostgresConfig", func() {
 				Database: "atc",
 			}.ConnectionString()).To(Equal("dbname='atc' host='1.2.3.4' password='password \\\\ with \\' funny ! chars' port=5432 sslmode='verify-full' user='some user'"))
 		})
+
+		It("sets ssl flags correctly", func() {
+			Expect(flag.PostgresConfig{
+				Host: "1.2.3.4",
+				Port: 5432,
+
+				SSLMode:        "require",
+				SSLNegotiation: "direct",
+
+				Database: "atc",
+			}.ConnectionString()).To(Equal("dbname='atc' host='1.2.3.4' port=5432 sslmode='require' sslnegotiation='direct'"))
+		})
 	})
 })
