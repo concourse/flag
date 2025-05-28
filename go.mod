@@ -6,7 +6,7 @@ toolchain go1.24.0
 
 require (
 	code.cloudfoundry.org/lager/v3 v3.26.0
-	github.com/golang-jwt/jwt/v5 v5.2.1
+	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/onsi/ginkgo/v2 v2.22.2
 	github.com/onsi/gomega v1.36.2
 	golang.org/x/crypto v0.33.0
