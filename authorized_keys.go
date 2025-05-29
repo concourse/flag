@@ -2,7 +2,7 @@ package flag
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 
 	"golang.org/x/crypto/ssh"
 )
@@ -13,7 +13,7 @@ type AuthorizedKeys struct {
 }
 
 func (f *AuthorizedKeys) UnmarshalFlag(value string) error {
-	authorizedKeysBytes, err := ioutil.ReadFile(value)
+	authorizedKeysBytes, err := os.ReadFile(value)
 	if err != nil {
 		return fmt.Errorf("failed to read authorized keys: %s", err)
 	}

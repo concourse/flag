@@ -3,7 +3,7 @@ package flag
 import (
 	"crypto/rsa"
 	"fmt"
-	"io/ioutil"
+	"os"
 
 	jwt "github.com/golang-jwt/jwt/v5"
 )
@@ -13,7 +13,7 @@ type PrivateKey struct {
 }
 
 func (f *PrivateKey) UnmarshalFlag(path string) error {
-	rsaKeyBlob, err := ioutil.ReadFile(path)
+	rsaKeyBlob, err := os.ReadFile(path)
 	if err != nil {
 		return fmt.Errorf("failed to read private key file (%s): %s", path, err)
 	}
