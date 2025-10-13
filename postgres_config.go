@@ -18,6 +18,8 @@ type PostgresConfig struct {
 	User     string `long:"user"     description:"The user to sign in as."`
 	Password string `long:"password" description:"The user's password."`
 
+	ApplicationName string `long:"application-name" description:"Application name for connection tracking in pg_stat_activity." default:"concourse"`
+
 	SSLMode        string `long:"sslmode"        description:"Whether or not to use SSL." default:"disable" choice:"disable" choice:"require" choice:"verify-ca" choice:"verify-full"`
 	SSLNegotiation string `long:"sslnegotiation" description:"Controls how SSL encryption is negotiated with the server." default:"postgres" choice:"postgres" choice:"direct"`
 	CACert         File   `long:"ca-cert"        description:"CA cert file location, to verify when connecting with SSL."`
@@ -48,6 +50,10 @@ func (config PostgresConfig) ConnectionString() string {
 	} else {
 		properties["host"] = config.Host
 		properties["port"] = config.Port
+	}
+
+	if config.ApplicationName != "" {
+		properties["application_name"] = config.ApplicationName
 	}
 
 	if config.SSLNegotiation != "" {

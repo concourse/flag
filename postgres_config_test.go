@@ -19,8 +19,9 @@ var _ = Describe("PostgresConfig", func() {
 
 				SSLMode: "verify-full",
 
-				Database: "atc",
-			}.ConnectionString()).To(Equal("dbname='atc' host='1.2.3.4' password='password \\\\ with \\' funny ! chars' port=5432 sslmode='verify-full' user='some user'"))
+				Database:        "atc",
+				ApplicationName: "concourse",
+			}.ConnectionString()).To(Equal("application_name='concourse' dbname='atc' host='1.2.3.4' password='password \\\\ with \\' funny ! chars' port=5432 sslmode='verify-full' user='some user'"))
 		})
 
 		It("sets ssl flags correctly", func() {
@@ -31,8 +32,9 @@ var _ = Describe("PostgresConfig", func() {
 				SSLMode:        "require",
 				SSLNegotiation: "direct",
 
-				Database: "atc",
-			}.ConnectionString()).To(Equal("dbname='atc' host='1.2.3.4' port=5432 sslmode='require' sslnegotiation='direct'"))
+				Database:        "atc",
+				ApplicationName: "concourse",
+			}.ConnectionString()).To(Equal("application_name='concourse' dbname='atc' host='1.2.3.4' port=5432 sslmode='require' sslnegotiation='direct'"))
 		})
 	})
 })
