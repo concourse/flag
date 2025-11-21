@@ -32,7 +32,7 @@ type PostgresConfig struct {
 }
 
 func (config PostgresConfig) ConnectionString() string {
-	properties := map[string]interface{}{
+	properties := map[string]any{
 		"dbname":  config.Database,
 		"sslmode": config.SSLMode,
 	}
